@@ -36,6 +36,7 @@ const AddUserInfor = (props) => {
           onChange={(event) => handleOnchangeAge(event)}
           value={Age}
         />
+        <br />
         <button>Submit</button>
       </form>
     </>
