@@ -10,7 +10,9 @@ const Mycomponent = (props) => {
   ]);
 
   const handleAddnewUser = (userObject) => {
-    setlistUser([userObject, ...listUser]);
+    if (listUser.length < 10) {
+      setlistUser([userObject, ...listUser]);
+    }
   };
   const handleDeleteUser = (userID) => {
     let listUserClone = listUser;
@@ -19,16 +21,19 @@ const Mycomponent = (props) => {
   };
 
   return (
-    <div>
-      <AddUserInfor handleAddnewUser={handleAddnewUser}></AddUserInfor>
-      <hr />
-      <h2>Hide list user</h2>
-      <hr />
-      <DisplayInfor
-        listUser={listUser}
-        handleDeleteUser={handleDeleteUser}
-      ></DisplayInfor>
-    </div>
+    <>
+      {listUser.length === 10 && <h2>Da full 10 User</h2>}
+      <div>
+        <AddUserInfor handleAddnewUser={handleAddnewUser}></AddUserInfor>
+        <hr />
+        <h2>Hide list user</h2>
+        <hr />
+        <DisplayInfor
+          listUser={listUser}
+          handleDeleteUser={handleDeleteUser}
+        ></DisplayInfor>
+      </div>
+    </>
   );
 };
 export default Mycomponent;
