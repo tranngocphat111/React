@@ -1,0 +1,59 @@
+#root {
+  width: 1000px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+}
+
+li {
+  list-style: none
+}
+
+.info {
+  border: 0.5px solid #808080;
+  border-top: none;
+  padding: 12px 12px 12px 12px;
+}
+
+.info.first {
+  border-top: 0.5px solid #808080;
+}
+
+h2 {
+  color: #303030;
+  margin-bottom: 12px;
+  font-size: 32px;
+}
+
+.title {
+  color: #5c5c5c;
+  font-weight: 700;
+}
+
+.content {
+  color: #2e2e2e;
+  font-weight: 700;
+}
+
+ul {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn{
+  background-color: rgb(238, 10, 10);
+  padding: 8px 16px ;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid rgb(87, 87, 87);
+  float: right;
+}
+
+.btn:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}
+
