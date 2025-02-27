@@ -1,7 +1,7 @@
 export default function TableStudent({ data }) {
 
   return (
-    <table class="table table-bordered" id="table">
+    <table className="table table-bordered" id="table">
       <thead>
         <tr>
           <th scope="col">Id</th>
@@ -11,7 +11,7 @@ export default function TableStudent({ data }) {
       </thead>
       <tbody>
        {data.map((student) => (
-            <tr>
+            <tr key={student.id}>   
                 <td>{student.id}</td>
                 <td>{student.name}</td>
                 <td>{student.grade}</td>
