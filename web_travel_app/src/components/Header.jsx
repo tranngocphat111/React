@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import "../bootstrap.min.css";
 import { Container, Navbar, Nav } from "react-bootstrap";
 export default function Header() {
   return (
