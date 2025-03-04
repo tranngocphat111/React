@@ -1,44 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import AddStudent from './components/AddStudent'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import TableStudent from './components/TableStudent'
+import { useEffect, useMemo, useReducer, useState } from "react";
+import AddStudent from "./components/AddStudent";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import TableStudent from "./components/TableStudent";
+
 function App() {
+  const storedData = JSON.parse(localStorage.getItem("student")) || [];
+  const [data, dispatch] = useReducer(handleChangeReducer, storedData);
 
-  let data = [{
-    id: 1,
-    name: 'John Doe',
-    grade: 8.5
-  },
-  {
-    id: 2,
-    name: 'Jane Doe',
-    grade: 8.5
-  }]
+  const [isUpdateStudent, setIsUpdateStudent] = useState(false);
+  const [studentUpdate, setStudentUpdate] = useState(null);
+  const [avgStudent, setAvgStudent] = useState(0);
 
-  const [students, setStudents] = useState(data);
+  useMemo(()=> {
+    const avg = data.reduce((sum, student) => sum + parseFloat(student.grade), 0) / data.length;
+    setAvgStudent(avg);
+  }, [data]);
+
+  useEffect(() => {
+    localStorage.setItem("student", JSON.stringify(data));
+  }, [data]);
+
+  function handleChangeReducer(state, action) {
+    console.log("Current state:", state);
+    console.log("Action received:", action);
+  
+    switch (action.type) {
+      case "ADD":
+        return [...state, action.payload];
+      case "DELETE":
+        return state.filter((student) => student.id !== action.payload);
+      case "UPDATE":
+        const updatedState = state.map((student) =>
+          student.id === action.payload.id ? action.payload : student
+        );
+        console.log("Updated state:", updatedState);
+        return updatedState;
+      default:
+        return state;
+    }
+  }
+  
 
   function handleAddStudent(student) {
-    setStudents([...students, student]);
+    dispatch({ type: "ADD", payload: student });
   }
 
+  function handleDelete(id) {
+    dispatch({ type: "DELETE", payload: id });
+  }
 
+  function IsUpdateStudent(student) {
+    setIsUpdateStudent(true);
+    setStudentUpdate(student);
+  }
+
+  function handleUpdate(student) {
+    dispatch({ type: "UPDATE", payload: student });
+    setIsUpdateStudent(false);
+    setStudentUpdate(null);
+  }
 
   return (
     <>
-      <h1 >Quản lý sinh viên</h1>
-      <AddStudent onAdd={handleAddStudent}/>
-
-
-      <div>
-        <h2>Danh sách sinh viên</h2>
-        <TableStudent data={students} />
-      </div>
-
+      <AddStudent onAdd={handleAddStudent} isUpdate={isUpdateStudent} onUpdate={handleUpdate} studentUpdate={studentUpdate}/>
+      <TableStudent avgStudent={avgStudent} onOpenFormUpdate={IsUpdateStudent} onDelete={handleDelete} data={data} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
